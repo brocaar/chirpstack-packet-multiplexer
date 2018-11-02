@@ -1,0 +1,14 @@
+[Unit]
+Description=LoRa Packet Multiplexer
+Documentation=https://www.loraserver.io/
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=packetmultiplexer
+Group=packetmultiplexer
+ExecStart=/usr/bin/lora-packet-Multiplexer
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

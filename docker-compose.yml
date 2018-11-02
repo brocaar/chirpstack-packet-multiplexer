@@ -1,0 +1,8 @@
+version: "3"
+services:
+  packetmultiplexer:
+    build:
+      context: .
+      dockerfile: Dockerfile-devel
+    volumes:
+      - ./:/go/src/github.com/brocaar/lora-packet-multiplexer

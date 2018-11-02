@@ -1,0 +1,44 @@
+git:
+  short_hash: true
+
+project_name: lora-packet-multiplexer
+
+builds:
+  - main: cmd/lora-packet-multiplexer/main.go
+    binary: lora-packet-multiplexer
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - 386
+      - arm
+      - arm64
+    goarm:
+      - 5
+      - 6
+      - 7
+    ignore:
+      - goos: darwin
+        goarch: 386
+
+release:
+  disable: true
+
+nfpm:
+  vendor: LoRa Server project
+  homepage: https://www.loraserver.io/
+  maintainer: Orne Brocaar <info@brocaar.com>
+  description: LoRa Packet Multiplexer
+  license: MIT
+  formats:
+    - deb
+  bindir: /usr/bin
+  files:
+    "packaging/files/lora-packet-multiplexer.rotate": "/etc/logrotate.d/lora-packet-multiplexer"
+    "packaging/files/lora-packet-multiplexer.init": "/usr/lib/lora-packet-multiplexer/scripts/lora-packet-multiplexer.init"
+    "packaging/files/lora-packet-multiplexer.service": "/usr/lib/lora-packet-multiplexer/scripts/lora-packet-multiplexer.service"
+  scripts:
+    postinstall: "packaging/scripts/post-install.sh"
+    postremove: "packaging/scripts/post-remove.sh"

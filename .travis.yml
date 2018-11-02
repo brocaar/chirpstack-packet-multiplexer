@@ -1,0 +1,26 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  - docker-compose run --rm packetmultiplexer make requirements
+  - docker-compose run --rm packetmultiplexer make test
+
+before_deploy:
+  - docker-compose run --rm packetmultiplexer make dist
+
+deploy:
+  - provider: s3
+    skip_cleanup: true
+    access_key_id: AKIAJLTNEMD6RLNMP2NQ
+    secret_access_key:
+      secure: emdlx1cAKLiiIZz1bVE98OTXorv7aehGylxqeMdpoM1wn05U88jpt42y4bGGZHaT+pC0xg/yvUo3MIaUgIZpLOib+4C5mFBgKiV47zxiHrEk6kUWiJ9hoqFDh5nczQgi097VTjaavyFCxtufJ2oShvRi653I2bR3+WbUX84sAaWIvWcir1ShpZJKkg04mCl7ZdVagLYgodwmZRoDhgbNP7e4XbIYebRcZRa1jYr0oszoCNM0/2v5ER6fRKuQmTXTUz3g5ale62S+bDscHFkR8/iklMYi32/m4/OCicYSIllWbthGnomqZPdtLCobEiI/UScDbFEDb938JnaIB2kU9gv0QuzT3jAYWXGteCZiPppVcq8ZduUHrCF7QPsFplGzQd3vHVn/1v/1+qrtWptJKnLb7QQlK8lNmk3ieHaZhzRYurPbM0SBm2g4mRWj0vf+pDTpcZ8PShKQX1MvRopGfdTmbG3uU6WktbqFuhkLMh112e635TEZpNVmaCaG8eGlC5+OY8l3D/GOqBAher8Ap83QP5whOcHHai8EqsNcDnQpKddCrQqKKYfx5X5NAFWApMe1RqCOyabPm8Sq4Gw7VXfbAKG37x6qUZwy9FHszqXyb+ahtIHWTomhQE2zYayJhikfBqVSVY85ImroE34VrVVWe8Ic4V4vCrn6YE3nrFQ=
+    bucket: builds.loraserver.io
+    local-dir: dist/upload
+    upload-dir: lora-packet-multiplexer
+    acl: private
+    region: eu-west-1
+    on:
+      tags: true
+      repo: brocaar/lora-packet-multiplexer
