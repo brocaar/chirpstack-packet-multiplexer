@@ -25,10 +25,7 @@ snapshot:
 	goreleaser --snapshot
 
 dev-requirements:
-	go get -u golang.org/x/tools/cmd/stringer
-	go get -u github.com/golang/dep/cmd/dep
-	go get -u github.com/goreleaser/goreleaser
-	go get -u github.com/goreleaser/nfpm
+	go install golang.org/x/tools/cmd/stringer
+	go install github.com/goreleaser/goreleaser
+	go install github.com/goreleaser/nfpm
 
-requirements:
-	dep ensure -v
