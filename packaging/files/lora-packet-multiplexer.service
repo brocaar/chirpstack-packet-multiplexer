@@ -7,7 +7,7 @@ After=network-online.target
 [Service]
 User=packetmultiplexer
 Group=packetmultiplexer
-ExecStart=/usr/bin/lora-packet-Multiplexer
+ExecStart=/usr/bin/lora-packet-multiplexer
 Restart=on-failure
 
 [Install]
