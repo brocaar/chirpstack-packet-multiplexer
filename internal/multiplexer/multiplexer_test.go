@@ -161,6 +161,7 @@ func (ts *MultiplexerTestSuite) TestUplink() {
 func (ts *MultiplexerTestSuite) TestDownlinkBackend1() {
 	tests := []struct {
 		Name                    string
+		UplinkOnly              bool
 		BackendSent             []byte
 		BackendReceived         []byte
 		PacketForwarderReceived []byte
@@ -170,12 +171,25 @@ func (ts *MultiplexerTestSuite) TestDownlinkBackend1() {
 			BackendSent:             []byte{0x02, 0x01, 0x02, 0x03, 0x01, 0x02, 0x03},
 			PacketForwarderReceived: []byte{0x02, 0x01, 0x02, 0x03, 0x01, 0x02, 0x03},
 		},
+		{
+			Name:                    "PULL_RESP - uplink only",
+			UplinkOnly:              true,
+			BackendSent:             []byte{0x02, 0x01, 0x02, 0x03, 0x01, 0x02, 0x03},
+			PacketForwarderReceived: []byte{},
+		},
 	}
 
 	ts.mp.gateways["0101010101010101"] = ts.pfConn.LocalAddr().(*net.UDPAddr)
 
 	for _, tst := range tests {
 		ts.T().Run(tst.Name, func(t *testing.T) {
+			ts.mp.config.Backends = []BackendConfig{
+				{
+					Host:       "127.0.0.1:1801",
+					UplinkOnly: tst.UplinkOnly,
+				},
+			}
+
 			assert := require.New(t)
 			addr := ts.mp.backends["127.0.0.1:1801"]["0101010101010101"].LocalAddr().(*net.UDPAddr)
 			_, err := ts.b1Conn.WriteToUDP(tst.BackendSent, addr)

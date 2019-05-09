@@ -53,8 +53,9 @@ func New(c Config) (*Multiplexer, error) {
 
 		for _, gatewayID := range backend.GatewayIDs {
 			log.WithFields(log.Fields{
-				"gateway_id": gatewayID,
-				"host":       backend.Host,
+				"gateway_id":  gatewayID,
+				"host":        backend.Host,
+				"uplink_only": backend.UplinkOnly,
 			}).Info("dial udp")
 			conn, err := net.DialUDP("udp", nil, addr)
 			if err != nil {
@@ -323,6 +324,15 @@ func (m *Multiplexer) forwardPullResp(backend, gatewayID string, up udpPacket) e
 		return errors.Wrap(err, "get gateway error")
 	}
 
+	if m.backendIsUplinkOnly(backend) {
+		log.WithFields(log.Fields{
+			"packet_type": PullResp,
+			"gateway_id":  gatewayID,
+			"host":        backend,
+		}).Info("ignoring downlink packet, backend is uplink only")
+		return nil
+	}
+
 	log.WithFields(log.Fields{
 		"from":        backend,
 		"to":          addr,
@@ -334,4 +344,14 @@ func (m *Multiplexer) forwardPullResp(backend, gatewayID string, up udpPacket) e
 	}
 
 	return nil
+}
+
+func (m *Multiplexer) backendIsUplinkOnly(backend string) bool {
+	for _, be := range m.config.Backends {
+		if be.Host == backend {
+			return be.UplinkOnly
+		}
+	}
+
+	return true
 }

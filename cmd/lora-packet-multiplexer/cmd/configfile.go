@@ -36,6 +36,12 @@ bind="{{ .PacketMultiplexer.Bind }}"
 # #
 # # The host:IP of the backend.
 # host="192.16.1.5:1700"
+#
+# # Uplink only
+#
+# # This backend is for uplink only. It is not able to send data
+# # back to the gateways.
+# uplink_only=false
 # 
 # # Gateway IDs
 # #
@@ -47,6 +53,8 @@ bind="{{ .PacketMultiplexer.Bind }}"
 {{ range $index, $element := .PacketMultiplexer.Backends }}
 [[packet_multiplexer.backend]]
 host="{{ $element.Host }}"
+
+uplink_only={{ $element.UplinkOnly }}
 
 gateway_ids = [
 {{ range $index, $element := $element.GatewayIDs -}}
