@@ -33,7 +33,7 @@ workflows:
               only: /.*/
       - deploy:
           requires:
-            - build
+            - test
           filters:
               tags:
                 only: /^v.*/
