@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     machine:
       image: circleci/classic:latest
 
@@ -21,13 +21,13 @@ jobs:
           command: docker-compose run --rm packetmultiplexer make dist
       - run:
           name: upload binaries to s3
-          command: aws s3 dist/upload s3://builds.loraserver.io/lora-packet-multiplexer
+          command: aws sync s3 dist/upload s3://builds.loraserver.io/lora-packet-multiplexer
 
 workflows:
   version: 2
-  build-deploy:
+  test-and-deploy:
     jobs:
-      - build:
+      - test:
           filters:
             tags:
               only: /.*/
