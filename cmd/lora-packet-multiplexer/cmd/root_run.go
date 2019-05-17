@@ -13,10 +13,20 @@ import (
 	"github.com/brocaar/lora-packet-multiplexer/internal/multiplexer"
 )
 
+var mp *multiplexer.Multiplexer
+
 func run(cmd *cobra.Command, args []string) error {
-	m, err := multiplexer.New(config.C.PacketMultiplexer)
-	if err != nil {
-		return errors.Wrap(err, "new multiplexer error")
+
+	tasks := []func() error{
+		setLogLevel,
+		printStartMessage,
+		setupMultiplexer,
+	}
+
+	for _, t := range tasks {
+		if err := t(); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	sigChan := make(chan os.Signal)
@@ -25,7 +35,7 @@ func run(cmd *cobra.Command, args []string) error {
 	log.WithField("signal", <-sigChan).Info("signal received")
 	go func() {
 		log.Warning("stopping lora-packet-multiplexer")
-		if err := m.Close(); err != nil {
+		if err := mp.Close(); err != nil {
 			log.Fatal(err)
 		}
 		exitChan <- struct{}{}
@@ -34,6 +44,29 @@ func run(cmd *cobra.Command, args []string) error {
 	case <-exitChan:
 	case s := <-sigChan:
 		log.WithField("signal", s).Info("signal received, stopping immediately")
+	}
+
+	return nil
+}
+
+func setLogLevel() error {
+	log.SetLevel(log.Level(uint8(config.C.General.LogLevel)))
+	return nil
+}
+
+func printStartMessage() error {
+	log.WithFields(log.Fields{
+		"version": version,
+		"docs":    "https://www.loraserver.io/",
+	}).Info("starting LoRa Packet Multiplexer")
+	return nil
+}
+
+func setupMultiplexer() error {
+	var err error
+	mp, err = multiplexer.New(config.C.PacketMultiplexer)
+	if err != nil {
+		return errors.Wrap(err, "new multiplexer error")
 	}
 
 	return nil
