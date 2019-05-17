@@ -4,7 +4,46 @@ The LoRa Packet Multiplexer utility forwards the [Semtech packet-forwarder](http
 UDP data to multiple endpoints. It makes it possible to connect a single
 LoRa gateway to multiple networks. It is part of the [LoRa Server project](https://www.loraserver.io).
 
-## Building
+## Install
+
+### Debian / Ubuntu
+
+The LoRa Server project provides a repository that is compatible with the
+Debian / Ubuntu apt package system. First make sure that both `dirmngr` and
+`apt-transport-https` are installed:
+
+```
+sudo apt install apt-transport-https dirmngr
+```
+
+Set up the key for this new repository:
+
+```
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1CE2AFD36DBCCA00
+```
+
+Add the repository to the repository list by creating a new file:
+
+```
+sudo echo "deb https://artifacts.loraserver.io/packages/3.x/deb stable main" | sudo tee /etc/apt/sources.list.d/loraserver.list
+```
+
+Update the apt package cache and install `lora-packet-multiplexer`:
+
+```
+sudo apt update
+sudo apt install lora-packet-multiplexer
+```
+
+To complete the installation, update the configuration file which is located
+at `/etc/lora-packet-multiplexer/lora-packet-multiplexer.toml` and (re)start
+the service:
+
+```
+sudo systemctl restart lora-packet-multiplexer
+```
+
+## Building from source
 
 ### Binary
 
@@ -68,6 +107,12 @@ bind="0.0.0.0:1700"
 # #
 # # The host:IP of the backend.
 # host="192.16.1.5:1700"
+#
+# # Uplink only
+#
+# # This backend is for uplink only. It is not able to send data
+# # back to the gateways.
+# uplink_only=false
 # 
 # # Gateway IDs
 # #
@@ -77,3 +122,10 @@ bind="0.0.0.0:1700"
 #   "0202020202020202",
 # ]
 ```
+
+## Changelog
+
+### v3.0.0
+
+* Initial release (part of LoRa Server v3 repository).
+
