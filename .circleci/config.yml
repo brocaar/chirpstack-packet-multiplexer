@@ -1,11 +1,10 @@
 version: 2
 jobs:
   build:
-    docker:
-      - image: circleci/golang:latest
+    machine:
+      - image: circleci/classic:latest
 
     steps:
-      - setup_remote_docker
       - checkout
       - run: docker-compose run --rm packetmultiplexer make test
 
