@@ -125,6 +125,10 @@ bind="0.0.0.0:1700"
 
 ## Changelog
 
+### v3.0.1
+
+* Auto-lowercase configured gateway IDs.
+
 ### v3.0.0
 
 * Initial release (part of LoRa Server v3 repository).

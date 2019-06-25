@@ -3,6 +3,7 @@ package multiplexer
 import (
 	"encoding/base64"
 	"net"
+	"strings"
 	"sync"
 
 	"github.com/pkg/errors"
@@ -52,6 +53,8 @@ func New(c Config) (*Multiplexer, error) {
 		}
 
 		for _, gatewayID := range backend.GatewayIDs {
+			gatewayID = strings.ToLower(gatewayID)
+
 			log.WithFields(log.Fields{
 				"gateway_id":  gatewayID,
 				"host":        backend.Host,
