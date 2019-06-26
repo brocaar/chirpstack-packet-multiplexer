@@ -31,6 +31,7 @@ type Multiplexer struct {
 // New creates a new multiplexer.
 func New(c Config) (*Multiplexer, error) {
 	m := Multiplexer{
+		config:   c,
 		backends: make(map[string]map[string]*net.UDPConn),
 		gateways: make(map[string]*net.UDPAddr),
 	}
@@ -46,7 +47,7 @@ func New(c Config) (*Multiplexer, error) {
 		return nil, errors.Wrap(err, "listen udp error")
 	}
 
-	for _, backend := range c.Backends {
+	for _, backend := range m.config.Backends {
 		addr, err := net.ResolveUDPAddr("udp", backend.Host)
 		if err != nil {
 			return nil, errors.Wrap(err, "resolve udp addr error")

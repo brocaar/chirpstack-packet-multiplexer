@@ -125,6 +125,10 @@ bind="0.0.0.0:1700"
 
 ## Changelog
 
+### v3.0.2
+
+* Fix setting of configuration variable (used to resolve if backend allows downlink).
+
 ### v3.0.1
 
 * Auto-lowercase configured gateway IDs.
