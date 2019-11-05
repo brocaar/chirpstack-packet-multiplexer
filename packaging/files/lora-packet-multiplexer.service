@@ -1,13 +1,13 @@
 [Unit]
-Description=LoRa Packet Multiplexer
-Documentation=https://www.loraserver.io/
+Description=ChirpStack Packet Multiplexer
+Documentation=https://www.chirpstack.io/
 Wants=network-online.target
 After=network-online.target
 
 [Service]
 User=packetmultiplexer
 Group=packetmultiplexer
-ExecStart=/usr/bin/lora-packet-multiplexer
+ExecStart=/usr/bin/chirpstack-packet-multiplexer
 Restart=on-failure
 
 [Install]

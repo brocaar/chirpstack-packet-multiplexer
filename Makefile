@@ -3,7 +3,7 @@ VERSION := $(shell git describe --always |sed -e "s/^v//")
 
 build:
 	mkdir -p build
-	go build -ldflags "-s -w -X main.version=$(VERSION)" -o build/lora-packet-multiplexer cmd/lora-packet-multiplexer/main.go
+	go build -ldflags "-s -w -X main.version=$(VERSION)" -o build/chirpstack-packet-multiplexer cmd/chirpstack-packet-multiplexer/main.go
 
 clean:
 	rm -rf build

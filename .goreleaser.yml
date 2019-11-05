@@ -1,8 +1,8 @@
-project_name: lora-packet-multiplexer
+project_name: chirpstack-packet-multiplexer
 
 builds:
-  - main: cmd/lora-packet-multiplexer/main.go
-    binary: lora-packet-multiplexer
+  - main: cmd/chirpstack-packet-multiplexer/main.go
+    binary: chirpstack-packet-multiplexer
     goos:
       - windows
       - darwin
@@ -24,18 +24,19 @@ release:
   disable: true
 
 nfpm:
-  vendor: LoRa Server project
-  homepage: https://www.loraserver.io/
+  vendor: ChirpStack
+  homepage: https://www.chirpstack.io/
   maintainer: Orne Brocaar <info@brocaar.com>
-  description: LoRa Packet Multiplexer
+  description: ChirpStack Packet Multiplexer
   license: MIT
   formats:
     - deb
   bindir: /usr/bin
   files:
-    "packaging/files/lora-packet-multiplexer.rotate": "/etc/logrotate.d/lora-packet-multiplexer"
-    "packaging/files/lora-packet-multiplexer.init": "/usr/lib/lora-packet-multiplexer/scripts/lora-packet-multiplexer.init"
-    "packaging/files/lora-packet-multiplexer.service": "/usr/lib/lora-packet-multiplexer/scripts/lora-packet-multiplexer.service"
+    "packaging/files/chirpstack-packet-multiplexer.rotate": "/etc/logrotate.d/chirpstack-packet-multiplexer"
+    "packaging/files/chirpstack-packet-multiplexer.init": "/usr/lib/chirpstack-packet-multiplexer/scripts/chirpstack-packet-multiplexer.init"
+    "packaging/files/chirpstack-packet-multiplexer.service": "/usr/lib/chirpstack-packet-multiplexer/scripts/chirpstack-packet-multiplexer.service"
   scripts:
+    preinstall: "packaging/scripts/pre-install.sh"
     postinstall: "packaging/scripts/post-install.sh"
     postremove: "packaging/scripts/post-remove.sh"

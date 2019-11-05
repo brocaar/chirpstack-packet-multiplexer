@@ -1,6 +1,6 @@
 package main
 
-import "github.com/brocaar/lora-packet-multiplexer/cmd/lora-packet-multiplexer/cmd"
+import "github.com/brocaar/chirpstack-packet-multiplexer/cmd/chirpstack-packet-multiplexer/cmd"
 
 var version string // set by the compiler
 

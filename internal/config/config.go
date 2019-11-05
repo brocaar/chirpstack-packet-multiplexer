@@ -1,8 +1,8 @@
 package config
 
-import "github.com/brocaar/lora-packet-multiplexer/internal/multiplexer"
+import "github.com/brocaar/chirpstack-packet-multiplexer/internal/multiplexer"
 
-// Version holds the LoRa Packet Multiplexer version.
+// Version holds the ChirpStack Packet Multiplexer version.
 var Version string
 
 // Config defines the configuration structure.

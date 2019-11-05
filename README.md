@@ -1,16 +1,16 @@
-# LoRa Packet Multiplexer
+# ChirpStack Packet Multiplexer
 
-[![CircleCI](https://circleci.com/gh/brocaar/lora-packet-multiplexer.svg?style=svg)](https://circleci.com/gh/brocaar/lora-packet-multiplexer)
+[![CircleCI](https://circleci.com/gh/brocaar/chirpstack-packet-multiplexer.svg?style=svg)](https://circleci.com/gh/brocaar/chirpstack-packet-multiplexer)
 
-The LoRa Packet Multiplexer utility forwards the [Semtech packet-forwarder](https://github.com/lora-net/packet_forwarder)
+The ChirpStack Packet Multiplexer utility forwards the [Semtech packet-forwarder](https://github.com/lora-net/packet_forwarder)
 UDP data to multiple endpoints. It makes it possible to connect a single
-LoRa gateway to multiple networks. It is part of the [LoRa Server project](https://www.loraserver.io).
+LoRa gateway to multiple networks. It is part of [ChirpStack](https://www.chirpstack.io).
 
 ## Install
 
 ### Debian / Ubuntu
 
-The LoRa Server project provides a repository that is compatible with the
+ChirpStack provides a repository that is compatible with the
 Debian / Ubuntu apt package system. First make sure that both `dirmngr` and
 `apt-transport-https` are installed:
 
@@ -27,22 +27,22 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1CE2AFD36DBCCA00
 Add the repository to the repository list by creating a new file:
 
 ```
-sudo echo "deb https://artifacts.loraserver.io/packages/3.x/deb stable main" | sudo tee /etc/apt/sources.list.d/loraserver.list
+sudo echo "deb https://artifacts.chirpstack.io/packages/3.x/deb stable main" | sudo tee /etc/apt/sources.list.d/chirpstack.list
 ```
 
-Update the apt package cache and install `lora-packet-multiplexer`:
+Update the apt package cache and install `chirpstack-packet-multiplexer`:
 
 ```
 sudo apt update
-sudo apt install lora-packet-multiplexer
+sudo apt install chirpstack-packet-multiplexer
 ```
 
 To complete the installation, update the configuration file which is located
-at `/etc/lora-packet-multiplexer/lora-packet-multiplexer.toml` and (re)start
+at `/etc/chirpstack-packet-multiplexer/chirpstack-packet-multiplexer.toml` and (re)start
 the service:
 
 ```
-sudo systemctl restart lora-packet-multiplexer
+sudo systemctl restart chirpstack-packet-multiplexer
 ```
 
 ## Building from source
@@ -53,7 +53,7 @@ It is recommended to run the commands below inside a [Docker Compose](https://do
 environment.
 
 ```bash
-docker-compose run --rm packetmultiplexer bash
+docker-compose run --rm chirpstack-packet-multiplexer bash
 ```
 
 ```bash
@@ -75,11 +75,11 @@ docker build -t IMAGENAME .
 
 ## Usage
 
-Run `lora-packet-multiplexer --help` for usage information.
+Run `chirpstack-packet-multiplexer --help` for usage information.
 
 ## Example configuration
 
-Executing `lora-packet-multiplexer configfile` returns the following configuration
+Executing `chirpstack-packet-multiplexer configfile` returns the following configuration
 template:
 
 ```toml
@@ -127,6 +127,11 @@ bind="0.0.0.0:1700"
 
 ## Changelog
 
+### v3.1.0
+
+This release renames LoRa Packet Multiplexer to ChirpStack Packet Multiplexer.
+See the [Rename Announcement](https://www.chirpstack.io/r/rename-announcement) for more information.
+
 ### v3.0.2
 
 * Fix setting of configuration variable (used to resolve if backend allows downlink).
@@ -138,4 +143,3 @@ bind="0.0.0.0:1700"
 ### v3.0.0
 
 * Initial release (part of LoRa Server v3 repository).
-

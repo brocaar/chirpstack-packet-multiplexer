@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 ### BEGIN INIT INFO
-# Provides:          lora-packet-multiplexer
+# Provides:          chirpstack-packet-multiplexer
 # Required-Start:    $all
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: LoRa Packet Multiplexer
+# Short-Description: ChirpStack Packet Multiplexer
 ### END INIT INFO
 
 
-NAME=lora-packet-multiplexer
-DESC="LoRa Packet Multiplexer"
+NAME=chirpstack-packet-multiplexer
+DESC="ChirpStack Packet Multiplexer"
 DAEMON_USER=packetmultiplexer
 DAEMON_GROUP=packetmultiplexer
 DAEMON=/usr/bin/$NAME
@@ -41,7 +41,7 @@ function do_start {
 }
 
 function do_stop {
-	start-stop-daemon --stop --retry=TERM/30/KILL/5 --pidfile "$PID_FILE" --name "$NAME"
+	start-stop-daemon --stop --retry=TERM/31/KILL/5 --pidfile "$PID_FILE" --exec "$DAEMON"
 	retval="$?"
 	sleep 1
 	return "$retval"

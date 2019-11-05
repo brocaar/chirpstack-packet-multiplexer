@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io/ioutil"
 
-	"github.com/brocaar/lora-packet-multiplexer/internal/config"
+	"github.com/brocaar/chirpstack-packet-multiplexer/internal/config"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -14,11 +14,11 @@ var cfgFile string
 var version string
 
 var rootCmd = &cobra.Command{
-	Use:   "lora-packet-multiplexer",
-	Short: "LoRa Packet Multiplexer",
-	Long: `LoRa Packet Multiplexer sends packet-forwarder data to multiple backends
-	> documentation & support: https://www.loraserver.io/
-	> source & copyright information: https://github.com/brocaar/lora-packet-multiplexer/`,
+	Use:   "chirpstack-packet-multiplexer",
+	Short: "ChirpStack Packet Multiplexer",
+	Long: `ChirpStack Packet Multiplexer sends packet-forwarder data to multiple backends
+	> documentation & support: https://www.chirpstack.io/
+	> source & copyright information: https://github.com/brocaar/chirpstack-packet-multiplexer/`,
 	RunE: run,
 }
 
@@ -58,10 +58,10 @@ func initConfig() {
 			log.WithError(err).WithField("config", cfgFile).Fatal("error loading config file")
 		}
 	} else {
-		viper.SetConfigName("lora-packet-multiplexer")
+		viper.SetConfigName("chirpstack-packet-multiplexer")
 		viper.AddConfigPath(".")
-		viper.AddConfigPath("$HOME/./config/lora-packet-multiplexer")
-		viper.AddConfigPath("/etc/lora-packet-multiplexer")
+		viper.AddConfigPath("$HOME/./config/chirpstack-packet-multiplexer")
+		viper.AddConfigPath("/etc/chirpstack-packet-multiplexer")
 		if err := viper.ReadInConfig(); err != nil {
 			switch err.(type) {
 			case viper.ConfigFileNotFoundError:

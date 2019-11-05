@@ -1,4 +1,4 @@
-/var/log/lora-packet-multiplexer/lora-packet-multiplexer.log {
+/var/log/chirpstack-packet-multiplexer/chirpstack-packet-multiplexer.log {
     daily
     rotate 7
     missingok

@@ -7,7 +7,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/brocaar/lora-packet-multiplexer/internal/config"
+	"github.com/brocaar/chirpstack-packet-multiplexer/internal/config"
 )
 
 const configTemplate = `[general]
@@ -66,7 +66,7 @@ gateway_ids = [
 
 var configCmd = &cobra.Command{
 	Use:   "configfile",
-	Short: "Print the LoRa Server configuration file",
+	Short: "Print the ChirpStack Packet Multiplexer configuration file",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		t := template.Must(template.New("config").Parse(configTemplate))
 		err := t.Execute(os.Stdout, &config.C)

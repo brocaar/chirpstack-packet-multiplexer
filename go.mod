@@ -1,4 +1,4 @@
-module github.com/brocaar/lora-packet-multiplexer
+module github.com/brocaar/chirpstack-packet-multiplexer
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
@@ -12,3 +12,5 @@ require (
 	github.com/stretchr/testify v1.3.0
 	golang.org/x/tools v0.0.0-20190509014725-d996b19ee77c
 )
+
+go 1.13

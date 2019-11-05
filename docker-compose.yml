@@ -1,8 +1,8 @@
 version: "3"
 services:
-  packetmultiplexer:
+  chirpstack-packet-multiplexer:
     build:
       context: .
       dockerfile: Dockerfile-devel
     volumes:
-      - ./:/lora-packet-multiplexer
+      - ./:/chirpstack-packet-multiplexer

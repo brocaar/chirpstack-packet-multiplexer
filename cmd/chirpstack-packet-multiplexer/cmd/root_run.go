@@ -9,8 +9,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"github.com/brocaar/lora-packet-multiplexer/internal/config"
-	"github.com/brocaar/lora-packet-multiplexer/internal/multiplexer"
+	"github.com/brocaar/chirpstack-packet-multiplexer/internal/config"
+	"github.com/brocaar/chirpstack-packet-multiplexer/internal/multiplexer"
 )
 
 var mp *multiplexer.Multiplexer
@@ -34,7 +34,7 @@ func run(cmd *cobra.Command, args []string) error {
 	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
 	log.WithField("signal", <-sigChan).Info("signal received")
 	go func() {
-		log.Warning("stopping lora-packet-multiplexer")
+		log.Warning("stopping chirpstack-packet-multiplexer")
 		if err := mp.Close(); err != nil {
 			log.Fatal(err)
 		}
@@ -57,8 +57,8 @@ func setLogLevel() error {
 func printStartMessage() error {
 	log.WithFields(log.Fields{
 		"version": version,
-		"docs":    "https://www.loraserver.io/",
-	}).Info("starting LoRa Packet Multiplexer")
+		"docs":    "https://www.chirpstack.io/",
+	}).Info("starting ChirpStack Packet Multiplexer")
 	return nil
 }
 

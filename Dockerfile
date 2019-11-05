@@ -1,6 +1,6 @@
 FROM golang:1.12-alpine AS development
 
-ENV PROJECT_PATH=/lora-packet-multiplexer
+ENV PROJECT_PATH=/chirpstack-packet-multiplexer
 ENV PATH=$PATH:$PROJECT_PATH/build
 ENV CGO_ENABLED=0
 ENV GO_EXTRA_BUILD_ARGS="-a -installsuffix cgo"
@@ -18,5 +18,5 @@ FROM alpine:latest AS production
 
 WORKDIR /root/
 RUN apk --no-cache add tzdata
-COPY --from=development /lora-packet-multiplexer .
-ENTRYPOINT ["./lora-packet-multiplexer"]
+COPY --from=development /chirpstack-packet-multiplexer .
+ENTRYPOINT ["./chirpstack-packet-multiplexer"]
