@@ -18,5 +18,5 @@ FROM alpine:latest AS production
 
 WORKDIR /root/
 RUN apk --no-cache add tzdata
-COPY --from=development /chirpstack-packet-multiplexer .
+COPY --from=development /chirpstack-packet-multiplexer/build .
 ENTRYPOINT ["./chirpstack-packet-multiplexer"]
