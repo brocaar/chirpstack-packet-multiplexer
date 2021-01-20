@@ -125,7 +125,7 @@ bind="0.0.0.0:1700"
 # ]
 ```
 
-## Example docker compose example
+## Example docker compose setup
 
 If you built the docker image for the packet multiplexer as above and wish to
 run it through docker compose create a suitable location for volumes and
@@ -152,7 +152,8 @@ services:
       - ./:/chirpstack-packet-multiplexer
       - ./config/chirpstack-packet-multiplexer.toml:/etc/chirpstack-packet-multiplexer/chirpstack-packet-multiplexer.toml:ro
 ```
-to run ```docker-compose up```
+To run...
+```docker-compose up```
 
 ## Changelog
 
