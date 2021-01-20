@@ -115,7 +115,7 @@ bind="0.0.0.0:1700"
 # # This backend is for uplink only. It is not able to send data
 # # back to the gateways.
 # uplink_only=false
-# 
+#
 # # Gateway IDs
 # #
 # # The Gateway IDs to forward data for.
@@ -124,6 +124,35 @@ bind="0.0.0.0:1700"
 #   "0202020202020202",
 # ]
 ```
+
+## Example docker compose example
+
+If you built the docker image for the packet multiplexer as above and wish to
+run it through docker compose create a suitable location for volumes and
+configfile to reside.
+
+```
+mkdir chirpstack-packet_multiplexer/config
+touch chirpstack-packet_multiplexer/config/chirpstack-packet-multiplexer.toml
+```
+
+Save your template in the following just created location below. Edit as required
+for multiplexer and backends.
+```chirpstack-packet_multiplexer/config/chirpstack-packet-multiplexer.toml```
+
+Example docker-compose
+```
+version: "3"
+services:
+  chirpstack-packet-multiplexer:
+    image: chirpstack-packet-multiplexer:latest
+    ports:
+      - 1700:1700/udp
+    volumes:
+      - ./:/chirpstack-packet-multiplexer
+      - ./config/chirpstack-packet-multiplexer.toml:/etc/chirpstack-packet-multiplexer/chirpstack-packet-multiplexer.toml:ro
+```
+to run ```docker-compose up```
 
 ## Changelog
 
