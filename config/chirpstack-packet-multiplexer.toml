@@ -1,0 +1,40 @@
+[general]
+# Log level
+#
+# debug=5, info=4, warning=3, error=2, fatal=1, panic=0
+log_level=4
+
+
+[packet_multiplexer]
+# Bind
+#
+# The interface:port on which the packet-multiplexer will bind for receiving
+# data from the packet-forwarder (UDP data).
+bind="0.0.0.0:1700"
+
+
+# Backends
+#
+# The backends to which the packet-multiplexer will forward the
+# packet-forwarder UDP data.
+#
+# Example:
+[[packet_multiplexer.backend]]
+# # Host
+# #
+# # The host:IP of the backend.
+host="hm-miner:1680"
+#
+# # Uplink only
+#
+# # This backend is for uplink only. It is not able to send data
+# # back to the gateways.
+# uplink_only=false
+# 
+# # Gateway IDs
+# #
+# # The Gateway IDs to forward data for.
+# gateway_ids = [
+#   "0101010101010101",
+#   "0202020202020202",
+# ]
