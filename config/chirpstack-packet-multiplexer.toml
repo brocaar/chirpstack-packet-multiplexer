@@ -4,14 +4,12 @@
 # debug=5, info=4, warning=3, error=2, fatal=1, panic=0
 log_level=4
 
-
 [packet_multiplexer]
 # Bind
 #
 # The interface:port on which the packet-multiplexer will bind for receiving
 # data from the packet-forwarder (UDP data).
 bind="0.0.0.0:1700"
-
 
 # Backends
 #
