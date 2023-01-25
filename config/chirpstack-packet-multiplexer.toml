@@ -23,7 +23,7 @@ bind="0.0.0.0:1700"
 # # Host
 # #
 # # The host:IP of the backend.
-host="hm-miner:1680"
+host="helium-miner:1680"
 #
 # # Uplink only
 #
