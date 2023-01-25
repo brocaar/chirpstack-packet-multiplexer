@@ -1,4 +1,4 @@
-FROM balenalib/raspberrypi3-golang:1.13-sid-build as pktmux-builder
+FROM --platform=linux/arm64 balenalib/raspberrypi3-golang:1.13-sid-build as pktmux-builder
 
 ENV PROJECT_PATH=/chirpstack-packet-multiplexer
 ENV PATH=$PATH:$PROJECT_PATH/build
@@ -15,7 +15,7 @@ WORKDIR $PROJECT_PATH
 RUN make dev-requirements
 RUN make
 
-FROM balenalib/raspberrypi3-golang:1.13-sid-run as pktmux-runner
+FROM --platform=linux/arm64 balenalib/raspberrypi3-golang:1.13-sid-run as pktmux-runner
 
 WORKDIR /root/
 COPY --from=pktmux-builder /chirpstack-packet-multiplexer/build .
