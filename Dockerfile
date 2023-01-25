@@ -1,4 +1,4 @@
-FROM golang:1.13-alpine AS development
+FROM arm64v8/golang:1.13-alpine3.11 AS development
 
 ENV PROJECT_PATH=/chirpstack-packet-multiplexer
 ENV PATH=$PATH:$PROJECT_PATH/build
