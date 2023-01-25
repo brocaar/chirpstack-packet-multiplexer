@@ -1,4 +1,4 @@
-FROM arm64v8/golang:1.13-alpine3.11 AS development
+FROM balenalib/raspberry-pi-alphine-golang:1.13 as pktmux-builder
 
 ENV PROJECT_PATH=/chirpstack-packet-multiplexer
 ENV PATH=$PATH:$PROJECT_PATH/build
@@ -14,7 +14,7 @@ WORKDIR $PROJECT_PATH
 RUN make dev-requirements
 RUN make
 
-FROM arm64v8/alpine:latest AS production
+FROM balenalib/raspberry-pi-alphine-golang:1.13 as pktmux-runner
 
 WORKDIR /root/
 RUN apk --no-cache add tzdata
