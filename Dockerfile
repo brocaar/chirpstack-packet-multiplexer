@@ -14,7 +14,7 @@ WORKDIR $PROJECT_PATH
 RUN make dev-requirements
 RUN make
 
-FROM alpine:latest AS production
+FROM arm64v8/alpine:latest AS production
 
 WORKDIR /root/
 RUN apk --no-cache add tzdata
