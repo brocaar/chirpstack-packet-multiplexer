@@ -19,5 +19,6 @@ FROM --platform=linux/arm64 balenalib/raspberrypi3-golang:1-sid-run as pktmux-ru
 
 WORKDIR /root/
 COPY --from=pktmux-builder /chirpstack-packet-multiplexer/build .
-COPY --from=pktmux-builder /chirpstack-packet-multiplexer/build/config/chirpstack-packet-multiplexer.toml /etc/chirpstack-packet-multiplexer/chirpstack-packet-multiplexer.toml
+RUN mkdir -p /etc/chirpstack-packet-multiplexer
+COPY --from=pktmux-builder /chirpstack-packet-multiplexer/config/chirpstack-packet-multiplexer.toml /etc/chirpstack-packet-multiplexer/chirpstack-packet-multiplexer.toml
 ENTRYPOINT ["./chirpstack-packet-multiplexer"]
