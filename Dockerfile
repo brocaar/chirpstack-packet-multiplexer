@@ -18,5 +18,5 @@ FROM balenalib/raspberry-pi-alphine-golang:1.13-run as pktmux-runner
 
 WORKDIR /root/
 RUN apk --no-cache add tzdata
-COPY --from=development /chirpstack-packet-multiplexer/build .
+COPY --from=pktmux-builder /chirpstack-packet-multiplexer/build .
 ENTRYPOINT ["./chirpstack-packet-multiplexer"]
