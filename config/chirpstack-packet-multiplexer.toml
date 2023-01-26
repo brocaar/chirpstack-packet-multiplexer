@@ -19,7 +19,6 @@ bind="0.0.0.0:1700"
 # Example:
 [[packet_multiplexer.backend]]
 # # Host
-# #
 # # The host:IP of the backend.
 host="helium-miner:1680"
 #
@@ -27,12 +26,10 @@ host="helium-miner:1680"
 #
 # # This backend is for uplink only. It is not able to send data
 # # back to the gateways.
-# uplink_only=false
+uplink_only=false
 # 
 # # Gateway IDs
-# #
 # # The Gateway IDs to forward data for.
-# gateway_ids = [
-#   "0101010101010101",
-#   "0202020202020202",
-# ]
+gateway_ids = [
+  "aa555a0000000000"
+]
