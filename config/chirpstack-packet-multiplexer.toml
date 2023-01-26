@@ -2,7 +2,7 @@
 # Log level
 #
 # debug=5, info=4, warning=3, error=2, fatal=1, panic=0
-log_level=4
+log_level=5
 
 [packet_multiplexer]
 # Bind
