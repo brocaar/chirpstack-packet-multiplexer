@@ -1,0 +1,2 @@
+hm-pyhelper==0.13.47
+Jinja2==3.1.2
