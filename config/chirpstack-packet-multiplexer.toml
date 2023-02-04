@@ -31,5 +31,5 @@ uplink_only=false
 # # Gateway IDs
 # # The Gateway IDs to forward data for.
 gateway_ids = [
-  "aa555a0000000000"
+  "0000{{ gateway_id }}"
 ]
