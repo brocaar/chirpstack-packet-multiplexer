@@ -33,3 +33,25 @@ uplink_only=false
 gateway_ids = [
   "0000{{ gateway_id }}"
 ]
+
+{% if ttn_config.ttn_enabled %}
+[[packet_multiplexer.backend]]
+# # Host
+# #
+# # The host:IP of the backend.
+host="{{ ttn_config.ttn_cluster }}"
+#
+# # Uplink only
+#
+# # This backend is for uplink only. It is not able to send data
+# # back to the gateways.
+# uplink_only=false
+#
+# # Gateway IDs
+# #
+# # The Gateway IDs to forward data for.
+gateway_ids = [
+  "0000{{ gateway_id }}"
+]
+{% endif %}
+
