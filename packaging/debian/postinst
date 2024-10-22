@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Set config-file permissions
+chown -R chirpstack:chirpstack /etc/chirpstack-packet-multiplexer
+chmod 750 /etc/chirpstack-packet-multiplexer
+chmod 640 /etc/chirpstack-packet-multiplexer/*.toml
+
+#DEBHELPER#

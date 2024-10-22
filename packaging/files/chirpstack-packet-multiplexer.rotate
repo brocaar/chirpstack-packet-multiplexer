@@ -1,8 +1,0 @@
-/var/log/chirpstack-packet-multiplexer/chirpstack-packet-multiplexer.log {
-    daily
-    rotate 7
-    missingok
-    dateext
-    copytruncate
-    compress
-}

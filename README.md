@@ -1,10 +1,8 @@
 # ChirpStack Packet Multiplexer
 
-[![CircleCI](https://circleci.com/gh/brocaar/chirpstack-packet-multiplexer.svg?style=svg)](https://circleci.com/gh/brocaar/chirpstack-packet-multiplexer)
-
-The ChirpStack Packet Multiplexer utility forwards the [Semtech packet-forwarder](https://github.com/lora-net/packet_forwarder)
-UDP data to multiple endpoints. It makes it possible to connect a single
-LoRa gateway to multiple networks. It is part of [ChirpStack](https://www.chirpstack.io).
+The ChirpStack Packet Multiplexer makes it possible to connect gateways using
+the [Semtech UDP packet-forwarder protocol](https://github.com/Lora-net/packet_forwarder/blob/master/PROTOCOL.TXT)
+to multiple servers, with the option to mark servers as uplink only.
 
 ## Install
 
@@ -27,7 +25,7 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1CE2AFD36DBCCA00
 Add the repository to the repository list by creating a new file:
 
 ```
-sudo echo "deb https://artifacts.chirpstack.io/packages/3.x/deb stable main" | sudo tee /etc/apt/sources.list.d/chirpstack.list
+sudo echo "deb https://artifacts.chirpstack.io/packages/4.x/deb stable main" | sudo tee /etc/apt/sources.list.d/chirpstack.list
 ```
 
 Update the apt package cache and install `chirpstack-packet-multiplexer`:
@@ -47,30 +45,54 @@ sudo systemctl restart chirpstack-packet-multiplexer
 
 ## Building from source
 
-### Binary
+### Requirements
 
-It is recommended to run the commands below inside a [Docker Compose](https://docs.docker.com/compose/)
-environment.
+Building ChirpStack Packet Multiplexer requires:
+
+* [Nix](https://nixos.org/download.html)
+* [Docker](https://www.docker.com/)
+
+#### Nix
+
+Nix is used for setting up the development environment which is used for local
+development and for creating the binaries.
+
+If you do not have Nix installed and do not wish to install it, then you can
+also replicate the development environment by installing the packages listed
+in `shell.nix` manually.
+
+#### Docker
+
+Docker is used by [cross-rs](https://github.com/cross-rs/cross) for cross-compiling,
+as well as some of the `make` commands.
+
+### Starting the development shell
+
+Run the following command to start the development shell:
 
 ```bash
-docker-compose run --rm chirpstack-packet-multiplexer bash
+nix-shell
 ```
 
+### Running tests
+
+Execute the following command to run the tests:
+
 ```bash
-# build binary
-make
-
-# create snapshot release
-make snapshot
-
-# run tests
 make test
 ```
 
-### Docker image
+### Building binaries
+
+Execute the following commands to build the ChirpStack Packet Multiplexer binaries
+and packages:
 
 ```bash
-docker build -t IMAGENAME .
+# Only build binaries
+make build
+
+# Build binaries + distributable packages.
+make dist
 ```
 
 ## Usage
@@ -83,79 +105,89 @@ Executing `chirpstack-packet-multiplexer configfile` returns the following confi
 template:
 
 ```toml
-[general]
-# Log level
-#
-# debug=5, info=4, warning=3, error=2, fatal=1, panic=0
-log_level=4
+# Logging settings.
+[logging]
+
+  # Log level.
+  #
+  # Valid options are:
+  #   * TRACE
+  #   * DEBUG
+  #   * INFO
+  #   * WARN
+  #   * ERROR
+  level = "info"
 
 
-[packet_multiplexer]
-# Bind
-#
-# The interface:port on which the packet-multiplexer will bind for receiving
-# data from the packet-forwarder (UDP data).
-bind="0.0.0.0:1700"
+# Multiplexer configuration.
+[multiplexer]
+
+  # Interface:port of UDP bind.
+  #
+  # This this is the interface:port on which the Multiplexer will receive
+  # data from the gateways.
+  bind = "0.0.0.0:1700"
+
+  # Servers to forward gateway data to.
+  #
+  # Example configuration:
+  # [[multiplexer.server]]
+
+  #   # Hostname:port of the server.
+  #   server="example.com:1700"
+
+  #   # Only allow uplink.
+  #   #
+  #   # If set to true, any downlink will be discarded.
+  #   uplink_only=false
+
+  #   # Gateway ID prefix filters.
+  #   #
+  #   # If not set, data of all gateways will be forwarded. If set, only data
+  #   # from gateways with a matching Gateway ID will be forwarded.
+  #   #
+  #   # Examplex:
+  #   # * "0102030405060708/32": Exact match (all 32 bits of the filter must match)
+  #   # * "0102030400000000/16": All gateway IDs starting with "01020304" (filter on 16 most significant bits)
+  #   gateway_id_prefixes=[]
 
 
-# Backends
-#
-# The backends to which the packet-multiplexer will forward the
-# packet-forwarder UDP data.
-#
-# Example:
-# [[packet_multiplexer.backend]]
-# # Host
-# #
-# # The host:IP of the backend.
-# host="192.16.1.5:1700"
-#
-# # Uplink only
-#
-# # This backend is for uplink only. It is not able to send data
-# # back to the gateways.
-# uplink_only=false
-#
-# # Gateway IDs
-# #
-# # The Gateway IDs to forward data for.
-# gateway_ids = [
-#   "0101010101010101",
-#   "0202020202020202",
-# ]
+# Monitoring configuration.
+[monitoring]
+
+  # Interface:port.
+  #
+  # If set, this will enable the monitoring endpoints. If not set, the endpoint
+  # will be disabled. Endpoints:
+  #
+  # * /metrics: Exposes Prometheus metrics.
+  bind = ""
 ```
 
-## Example docker compose setup
-
-If you built the docker image for the packet multiplexer as above and wish to
-run it through docker compose create a suitable location for volumes and
-configfile to reside.
+## Docker Compose example
 
 ```
-mkdir chirpstack-packet_multiplexer/config
-touch chirpstack-packet_multiplexer/config/chirpstack-packet-multiplexer.toml
-```
-
-Save your template in the following just created location below. Edit as required
-for multiplexer and backends.
-```chirpstack-packet_multiplexer/config/chirpstack-packet-multiplexer.toml```
-
-Example docker-compose
-```
-version: "3"
 services:
   chirpstack-packet-multiplexer:
-    image: chirpstack-packet-multiplexer:latest
+    image: chirpstack-packet-multiplexer:4
+    command: -c /etc/chirpstack-packet-multiplexer/chirpstack-packet-multiplexer.toml
     ports:
       - 1700:1700/udp
     volumes:
-      - ./:/chirpstack-packet-multiplexer
-      - ./config/chirpstack-packet-multiplexer.toml:/etc/chirpstack-packet-multiplexer/chirpstack-packet-multiplexer.toml:ro
+      - ./config:/etc/chirpstack-packet-multiplexer
 ```
-To run...
-```docker-compose up```
+
+The above example assumes that you have a local configuration directory named
+`config` which contains a `chirpstack-packet-multiplexer.toml` file.
 
 ## Changelog
+
+### v4.0.0
+
+* Refactor code from Go to Rust.
+* Allow Gateway ID prefix filtering.
+* Forward all gateways in case `gateway_id_prefixes` is empty.
+* Expose Prometheus metrics.
 
 ### v3.1.0
 
@@ -173,3 +205,8 @@ See the [Rename Announcement](https://www.chirpstack.io/r/rename-announcement) f
 ### v3.0.0
 
 * Initial release (part of LoRa Server v3 repository).
+
+## License
+
+ChirpStack Packet Multiplexer is distributed under the MIT license. See also
+[LICENSE](https://github.com/chirpstack/chirpstack-packet-multiplexer/blob/master/LICENSE).

@@ -1,8 +1,0 @@
-version: "3"
-services:
-  chirpstack-packet-multiplexer:
-    build:
-      context: .
-      dockerfile: Dockerfile-devel
-    volumes:
-      - ./:/chirpstack-packet-multiplexer

@@ -1,0 +1,14 @@
+[Unit]
+Description=ChirpStack Packet Multiplexer
+Documentation=https://www.chirpstack.io/
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=chirpstack
+Group=chirpstack
+ExecStart=/usr/bin/chirpstack-packet-multiplexer -c /etc/chirpstack-packet-multiplexer/chirpstack-packet-multiplexer.toml
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

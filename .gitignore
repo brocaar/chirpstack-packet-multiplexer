@@ -1,19 +1,12 @@
 # hidden files
 .*
-
-# Vagrant
-Vagrantfile
-
-# logs
-*.log
-
-# configuration
-*.toml
+!/.github
 
 # dependencies
-/vendor
+/target
 
 # builds
 /dist
-/build
-/docs/public
+
+# config
+/chirpstack-packet-multiplexer.toml
